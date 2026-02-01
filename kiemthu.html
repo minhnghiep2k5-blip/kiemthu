@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống quản lý sinh viên</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1.5px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        input[type="number"] {
+            padding: 10px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+        .list-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            grid-column: 1 / -1;
+        }
+
+        .list-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        .btn-delete {
+            background: #ff4757;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .btn-delete:hover {
+            background: #ff3838;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+            font-style: italic;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .stat-card .label {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Hệ thống quản lý sinh viên</h1>
+
+        </div>
+
+        <div class="main-content">
+            <div class="form-section">
+                <h2>➕ Thêm sinh viên</h2>
+                <div class="alert" id="alert"></div>
+                <form id="studentForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="maSV">Mã SV *</label>
+                            <input type="text" id="maSV" name="maSV" required placeholder="Ví dụ: SV001">
+                        </div>
+                        <div class="form-group">
+                            <label for="tenSV">Tên SV *</label>
+                            <input type="text" id="tenSV" name="tenSV" required placeholder="Tên sinh viên">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="sdt">SĐT *</label>
+                            <input type="number" id="sdt" name="sdt" required placeholder="0123456789" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ngaySinh">Ngày sinh *</label>
+                            <input type="date" id="ngaySinh" name="ngaySinh" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gioiTinh">Giới tính *</label>
+                            <select id="gioiTinh" name="gioiTinh" required>
+                                <option value="">-- Chọn giới tính --</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cccd">Số CCCD *</label>
+                            <input type="number" id="cccd" name="cccd" required placeholder="Ví dụ: 123456789012" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="lop">Lớp *</label>
+                            <input type="text" id="lop" name="lop" required placeholder="Ví dụ: 10A1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="diemTB">Điểm TB cả năm *</label>
+                            <input type="number" id="diemTB" name="diemTB" required min="0" max="10" step="0.1" placeholder="0.0 - 10.0">
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="diaChi">Địa chỉ</label>
+                        <textarea id="diaChi" name="diaChi" placeholder="Nhập địa chỉ sinh viên"></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn-submit">✓ Thêm sinh viên</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="list-section">
+            <h2>📋 Danh sách sinh viên</h2>
+            <div class="table-wrapper">
+                <table id="studentTable">
+                    <thead>
+                        <tr>
+                            <th>Mã SV</th>
+                            <th>Tên SV</th>
+                            <th>Email</th>
+                            <th>SĐT</th>
+                            <th>Ngày sinh</th>
+                            <th>Giới tính</th>
+                            <th>Lớp</th>
+                            <th>Điểm TB</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentList">
+                        <tr>
+                            <td colspan="9" class="empty-message">Không có sinh viên nào. Hãy thêm sinh viên mới!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('studentForm');
+        const studentList = document.getElementById('studentList');
+        const studentTable = document.getElementById('studentTable');
+        const alertDiv = document.getElementById('alert');
+
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+
+        // Hiển thị danh sách sinh viên khi trang tải
+        displayStudents();
+
+        // Xử lý submit form
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const maSV = document.getElementById('maSV').value;
+            const tenSV = document.getElementById('tenSV').value;
+            const sdt = document.getElementById('sdt').value;
+            const ngaySinh = document.getElementById('ngaySinh').value;
+            const gioiTinh = document.getElementById('gioiTinh').value;
+            const cccd = document.getElementById('cccd').value;
+
+            // Kiểm tra định dạng mã SV (SV + 3 chữ số)
+            const maSVRegex = /^SV\d{3}$/;
+            if (!maSVRegex.test(maSV)) {
+                showAlert('Lỗi: Mã SV phải có định dạng SV + 3 chữ số (ví dụ: SV001, SV123)', 'error');
+                return;
+            }
+
+            // Kiểm tra tên SV chỉ chứa chữ và khoảng trắng
+            const tenSVRegex = /^[a-zA-ZÀ-ỿ\s]+$/;
+            if (!tenSVRegex.test(tenSV)) {
+                showAlert('Lỗi: Tên sinh viên chỉ được phép chứa chữ cái (không được nhập số hoặc ký tự đặc biệt)', 'error');
+                return;
+            }
+
+            // Kiểm tra ngày sinh hợp lệ
+            if (!ngaySinh) {
+                showAlert('Lỗi: Vui lòng chọn ngày sinh', 'error');
+                return;
+            }
+
+            const dateParts = ngaySinh.split('-');
+            const year = parseInt(dateParts[0]);
+            const month = parseInt(dateParts[1]);
+            const day = parseInt(dateParts[2]);
+            
+            const checkDate = new Date(year, month - 1, day);
+            if (checkDate.getFullYear() !== year || checkDate.getMonth() !== month - 1 || checkDate.getDate() !== day) {
+                showAlert('Lỗi: Ngày sinh không tồn tại (ví dụ: 30/2 không hợp lệ)', 'error');
+                return;
+            }
+
+            // Kiểm tra giới tính bắt buộc
+            if (!gioiTinh) {
+                showAlert('Lỗi: Vui lòng chọn giới tính', 'error');
+                return;
+            }
+
+            const student = {
+                id: Date.now(),
+                maSV: maSV,
+                tenSV: tenSV,
+                email: document.getElementById('email').value,
+                sdt: sdt,
+                ngaySinh: ngaySinh,
+                gioiTinh: gioiTinh,
+                cccd: cccd,
+                lop: document.getElementById('lop').value,
+                diemTB: document.getElementById('diemTB').value,
+                diaChi: document.getElementById('diaChi').value
+            };
+
+            // Kiểm tra mã SV không trùng
+            if (students.some(s => s.maSV === student.maSV)) {
+                showAlert('Mã SV đã tồn tại!', 'error');
+                return;
+            }
+
+            students.push(student);
+            localStorage.setItem('students', JSON.stringify(students));
+            displayStudents();
+            form.reset();
+            showAlert('Thêm sinh viên thành công!', 'success');
+        });
+
+        function displayStudents() {
+            if (students.length === 0) {
+                studentList.innerHTML = '<tr><td colspan="9" class="empty-message">Không có sinh viên nào. Hãy thêm sinh viên mới!</td></tr>';
+                return;
+            }
+
+            studentList.innerHTML = students.map(student => `
+                <tr>
+                    <td>${student.maSV}</td>
+                    <td>${student.tenSV}</td>
+                    <td>${student.email}</td>
+                    <td>${student.sdt}</td>
+                    <td>${formatDate(student.ngaySinh)}</td>
+                    <td>${student.gioiTinh}</td>
+                    <td>${student.lop}</td>
+                    <td>${student.diemTB}</td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteStudent(${student.id})">Xóa</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteStudent(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa sinh viên này?')) {
+                students = students.filter(s => s.id !== id);
+                localStorage.setItem('students', JSON.stringify(students));
+                displayStudents();
+                showAlert('Xóa sinh viên thành công!', 'success');
+            }
+        }
+
+        function showAlert(message, type) {
+            alertDiv.textContent = message;
+            alertDiv.className = `alert ${type}`;
+            setTimeout(() => {
+                alertDiv.className = 'alert';
+            }, 3000);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+    </script>
+</body>
+</html>
