@@ -387,13 +387,17 @@
         form.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const maSV = document.getElementById('maSV').value;
-            const tenSV = document.getElementById('tenSV').value;
-            const sdt = document.getElementById('sdt').value;
+            const maSV = document.getElementById('maSV').value.trim();
+            const tenSV = document.getElementById('tenSV').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const sdt = document.getElementById('sdt').value.trim();
             const ngaySinh = document.getElementById('ngaySinh').value;
             const gioiTinh = document.getElementById('gioiTinh').value;
-            const cccd = document.getElementById('cccd').value;
+            const cccd = document.getElementById('cccd').value.trim();
+            const lop = document.getElementById('lop').value.trim();
+            const diemTB = document.getElementById('diemTB').value.trim();
 
+            
             // Kiểm tra định dạng mã SV (SV + 3 chữ số)
             const maSVRegex = /^SV\d{3}$/;
             if (!maSVRegex.test(maSV)) {
@@ -408,12 +412,57 @@
                 return;
             }
 
-            // Kiểm tra ngày sinh hợp lệ
-            if (!ngaySinh) {
-                showAlert('Lỗi: Vui lòng chọn ngày sinh', 'error');
-                return;
-            }
+          // Mã sinh viên
+if (!maSV) {
+    showAlert('Báo lỗi mã sinh viên không được để trống', 'error');
+    return;
+}
+// Kiểm tra định dạng mã SV
+const maSVRegex = /^SV\d{3}$/;
+if (!maSVRegex.test(maSV)) {
+    showAlert('Lỗi: Mã SV phải có dạng SV001', 'error');
+    return;
+}
+            
+// Tên sinh viên
+if (!tenSV) {
+    showAlert('Báo lỗi tên sinh viên không được để trống', 'error');
+    return;
+}
+// Email
+if (!email) {
+    showAlert('Báo lỗi email không được để trống', 'error');
+    return;
+}
+            if (!email.includes('@') || email.endsWith('@')) {
+    showAlert("Báo lỗi nhập phần đứng sau '@'. 'd@' không hoàn chỉnh", 'error');
+    return;
+}
+// SĐT
+if (!sdt) {
+    showAlert('Báo lỗi số điện thoại không được để trống', 'error');
+    return;
+}
 
+if (isNaN(sdt)) {
+    showAlert('Báo lỗi sdt nhập số', 'error');
+    return;
+}
+      // Ngày sinh
+if (!ngaySinh) {
+    showAlert('Báo lỗi ngày sinh không được để trống', 'error');
+    return;
+}   
+            // CCCD
+if (!cccd) {
+    showAlert('Báo lỗi CCCD không được để trống', 'error');
+    return;
+}
+
+if (isNaN(cccd)) {
+    showAlert('Báo lỗi CCCD nhập số', 'error');
+    return;
+}
             const dateParts = ngaySinh.split('-');
             const year = parseInt(dateParts[0]);
             const month = parseInt(dateParts[1]);
@@ -425,11 +474,26 @@
                 return;
             }
 
-            // Kiểm tra giới tính bắt buộc
-            if (!gioiTinh) {
-                showAlert('Lỗi: Vui lòng chọn giới tính', 'error');
-                return;
-            }
+            // Giới tính
+if (!gioiTinh) {
+    showAlert('Báo lỗi phải chọn giới tính từ danh sách', 'error');
+    return;
+}
+            // Lớp
+if (!lop) {
+    showAlert('Báo lỗi lớp không được để trống', 'error');
+    return;
+}
+            // Điểm
+if (!diemTB) {
+    showAlert('Báo lỗi điểm không được để trống', 'error');
+    return;
+}
+
+if (isNaN(diemTB)) {
+    showAlert('Báo lỗi điểm nhập số', 'error');
+    return;
+}
 
             const student = {
                 id: Date.now(),
@@ -445,11 +509,12 @@
                 diaChi: document.getElementById('diaChi').value
             };
 
-            // Kiểm tra mã SV không trùng
-            if (students.some(s => s.maSV === student.maSV)) {
-                showAlert('Mã SV đã tồn tại!', 'error');
-                return;
-            }
+           // Kiểm tra mã SV trùng
+if (students.some(s => s.maSV === maSV)) {
+    showAlert('Báo lỗi mã sinh viên đã tồn tại', 'error');
+    return;
+}
+
 
             students.push(student);
             localStorage.setItem('students', JSON.stringify(students));
@@ -505,4 +570,5 @@
     </script>
 </body>
 </html>
+
 
