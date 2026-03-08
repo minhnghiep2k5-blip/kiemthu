@@ -397,7 +397,11 @@
             const lop = document.getElementById('lop').value.trim();
             const diemTB = document.getElementById('diemTB').value.trim();
 
-            
+            // Mã sinh viên
+if (!maSV) {
+    showAlert('Báo lỗi mã sinh viên không được để trống', 'error');
+    return;
+}
             // Kiểm tra định dạng mã SV (SV + 3 chữ số)
             const maSVRegex = /^SV\d{3}$/;
             if (!maSVRegex.test(maSV)) {
@@ -411,18 +415,6 @@
                 showAlert('Lỗi: Tên sinh viên chỉ được phép chứa chữ cái (không được nhập số hoặc ký tự đặc biệt)', 'error');
                 return;
             }
-
-          // Mã sinh viên
-if (!maSV) {
-    showAlert('Báo lỗi mã sinh viên không được để trống', 'error');
-    return;
-}
-// Kiểm tra định dạng mã SV
-const maSVRegex = /^SV\d{3}$/;
-if (!maSVRegex.test(maSV)) {
-    showAlert('Lỗi: Mã SV phải có dạng SV001', 'error');
-    return;
-}
             
 // Tên sinh viên
 if (!tenSV) {
@@ -570,5 +562,6 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
