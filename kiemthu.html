@@ -445,20 +445,18 @@ if (isNaN(sdt)) {
 if (!ngaySinh) {
     showAlert('Báo lỗi ngày sinh không được để trống', 'error');
     return;
-}   
-            const dateParts = ngaySinh.split('-');
-const year = parseInt(dateParts[0]);
-const month = parseInt(dateParts[1]);
-const day = parseInt(dateParts[2]);
+}
 
-const checkDate = new Date(year, month - 1, day);
+const birthDate = new Date(ngaySinh);
+const today = new Date();
 
-if (
-    checkDate.getFullYear() !== year ||
-    checkDate.getMonth() !== month - 1 ||
-    checkDate.getDate() !== day
-) {
-    showAlert('Lỗi: Ngày sinh không tồn tại', 'error');
+if (isNaN(birthDate.getTime())) {
+    showAlert('Lỗi: Ngày sinh không hợp lệ', 'error');
+    return;
+}
+
+if (birthDate > today) {
+    showAlert('Lỗi: Ngày sinh không được lớn hơn ngày hiện tại', 'error');
     return;
 }
             // CCCD
@@ -577,6 +575,7 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
 
