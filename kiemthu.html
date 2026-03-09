@@ -486,6 +486,10 @@ if (isNaN(diemTB)) {
     showAlert('Báo lỗi điểm nhập số', 'error');
     return;
 }
+            if (diemTB < 0 || diemTB > 10) {
+    showAlert('Báo lỗi điểm phải nằm trong khoảng 0 đến 10', 'error');
+    return;
+}
 
             const student = {
                 id: Date.now(),
@@ -562,6 +566,7 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
 
