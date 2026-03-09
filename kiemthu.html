@@ -456,7 +456,7 @@ if (isNaN(birthDate.getTime())) {
 }
 
 if (birthDate > today) {
-    showAlert('Lỗi: Ngày sinh không được lớn hơn ngày hiện tại', 'error');
+    showAlert('Lỗi: Ngày sinh không tồn tại', 'error');
     return;
 }
             // CCCD
@@ -575,6 +575,7 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
 
