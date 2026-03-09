@@ -396,6 +396,7 @@
             const cccd = document.getElementById('cccd').value.trim();
             const lop = document.getElementById('lop').value.trim();
             const diemTB = document.getElementById('diemTB').value.trim();
+            const diaChi = document.getElementById('diaChi').value.trim();
 
             // Mã sinh viên
 if (!maSV) {
@@ -490,6 +491,11 @@ if (isNaN(diemTB)) {
     showAlert('Báo lỗi điểm phải nằm trong khoảng 0 đến 10', 'error');
     return;
 }
+            // Địa chỉ
+if (!diaChi) {
+    showAlert('Báo lỗi địa chỉ không được để trống', 'error');
+    return;
+}
 
             const student = {
                 id: Date.now(),
@@ -502,7 +508,7 @@ if (isNaN(diemTB)) {
                 cccd: cccd,
                 lop: document.getElementById('lop').value,
                 diemTB: document.getElementById('diemTB').value,
-                diaChi: document.getElementById('diaChi').value
+                diaChi: diaChi
             };
 
            // Kiểm tra mã SV trùng
@@ -566,6 +572,7 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
 
