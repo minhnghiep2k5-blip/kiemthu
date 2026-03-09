@@ -409,6 +409,11 @@ if (!maSV) {
                 showAlert('Lỗi: Mã SV phải có định dạng SV + 3 chữ số (ví dụ: SV001, SV123)', 'error');
                 return;
             }
+            // Tên sinh viên
+if (!tenSV) {
+    showAlert('Báo lỗi tên sinh viên không được để trống', 'error');
+    return;
+}
 
             // Kiểm tra tên SV chỉ chứa chữ và khoảng trắng
             const tenSVRegex = /^[a-zA-ZÀ-ỿ\s]+$/;
@@ -417,11 +422,7 @@ if (!maSV) {
                 return;
             }
             
-// Tên sinh viên
-if (!tenSV) {
-    showAlert('Báo lỗi tên sinh viên không được để trống', 'error');
-    return;
-}
+
 // Email
 if (!email) {
     showAlert('Báo lỗi email không được để trống', 'error');
@@ -575,6 +576,7 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
 
