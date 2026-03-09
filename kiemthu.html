@@ -446,6 +446,21 @@ if (!ngaySinh) {
     showAlert('Báo lỗi ngày sinh không được để trống', 'error');
     return;
 }   
+            const dateParts = ngaySinh.split('-');
+const year = parseInt(dateParts[0]);
+const month = parseInt(dateParts[1]);
+const day = parseInt(dateParts[2]);
+
+const checkDate = new Date(year, month - 1, day);
+
+if (
+    checkDate.getFullYear() !== year ||
+    checkDate.getMonth() !== month - 1 ||
+    checkDate.getDate() !== day
+) {
+    showAlert('Lỗi: Ngày sinh không tồn tại', 'error');
+    return;
+}
             // CCCD
 if (!cccd) {
     showAlert('Báo lỗi CCCD không được để trống', 'error');
@@ -456,16 +471,6 @@ if (isNaN(cccd)) {
     showAlert('Báo lỗi CCCD nhập số', 'error');
     return;
 }
-            const dateParts = ngaySinh.split('-');
-            const year = parseInt(dateParts[0]);
-            const month = parseInt(dateParts[1]);
-            const day = parseInt(dateParts[2]);
-            
-            const checkDate = new Date(year, month - 1, day);
-            if (checkDate.getFullYear() !== year || checkDate.getMonth() !== month - 1 || checkDate.getDate() !== day) {
-                showAlert('Lỗi: Ngày sinh không tồn tại (ví dụ: 30/2 không hợp lệ)', 'error');
-                return;
-            }
 
             // Giới tính
 if (!gioiTinh) {
@@ -572,6 +577,7 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
 
