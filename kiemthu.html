@@ -460,11 +460,11 @@ if (!sdt) {
     showAlert('Báo lỗi số điện thoại không được để trống', 'error');
     return;
 }
-
-if (isNaN(sdt)) {
-    showAlert('Báo lỗi sdt nhập số', 'error');
+            if (!/^[0-9]{10}$/.test(sdt)) {
+    showAlert('Báo lỗi sdt nhập số (10)', 'error');
     return;
 }
+
       // Ngày sinh
 if (!ngaySinh) {
     showAlert('Báo lỗi ngày sinh không được để trống', 'error');
@@ -488,11 +488,11 @@ if (!cccd) {
     showAlert('Báo lỗi CCCD không được để trống', 'error');
     return;
 }
-
-if (isNaN(cccd)) {
-    showAlert('Báo lỗi CCCD nhập số', 'error');
+            if (!/^[0-9]{12}$/.test(cccd)) {
+    showAlert('Báo lỗi CCCD nhập số (12)', 'error');
     return;
 }
+
 
             // Giới tính
 if (!gioiTinh) {
@@ -599,6 +599,7 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
 
