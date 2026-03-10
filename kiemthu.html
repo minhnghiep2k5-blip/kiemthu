@@ -461,7 +461,7 @@ if (!sdt) {
     return;
 }
             if (!/^[0-9]{10}$/.test(sdt)) {
-    showAlert('Báo lỗi sdt nhập số (10)', 'error');
+    showAlert('Báo lỗi sdt nhập số', 'error');
     return;
 }
 
@@ -489,7 +489,7 @@ if (!cccd) {
     return;
 }
             if (!/^[0-9]{12}$/.test(cccd)) {
-    showAlert('Báo lỗi CCCD nhập số (12)', 'error');
+    showAlert('Báo lỗi CCCD nhập số', 'error');
     return;
 }
 
@@ -599,6 +599,7 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
 
