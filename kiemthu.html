@@ -378,7 +378,30 @@
         const studentTable = document.getElementById('studentTable');
         const alertDiv = document.getElementById('alert');
 
-        let students = JSON.parse(localStorage.getItem('students')) || [];
+      let students = JSON.parse(localStorage.getItem("students")) || [];
+
+function themSinhVien(){
+
+    let maSV = document.getElementById("maSV").value;
+
+    let trung = students.some(sv => sv.maSV === maSV);
+
+    if(trung){
+        document.getElementById("alert_message").innerText = "Mã sinh viên đã tồn tại";
+        return;
+    }
+
+    let student = {
+        maSV: maSV,
+        ten: document.getElementById("ten").value
+    };
+
+    students.push(student);
+
+    localStorage.setItem("students", JSON.stringify(students));
+
+    document.getElementById("alert_message").innerText = "Thêm sinh viên thành công";
+}
 
         // Hiển thị danh sách sinh viên khi trang tải
         displayStudents();
@@ -576,6 +599,7 @@ if (students.some(s => s.maSV === maSV)) {
     </script>
 </body>
 </html>
+
 
 
 
