@@ -378,12 +378,11 @@
         const studentTable = document.getElementById('studentTable');
         const alertDiv = document.getElementById('alert');
 
-    let students = JSON.parse(localStorage.getItem("students"));
+   let students = JSON.parse(localStorage.getItem("students"));
 
 if (!students || students.length === 0) {
     students = [
         {
-            id: 1,
             maSV: "SV001",
             tenSV: "Nguyen Van A",
             email: "a@gmail.com",
@@ -396,7 +395,6 @@ if (!students || students.length === 0) {
             diaChi: "Hà Nội"
         },
         {
-            id: 2,
             maSV: "SV002",
             tenSV: "Tran Thi B",
             email: "b@gmail.com",
@@ -412,6 +410,7 @@ if (!students || students.length === 0) {
 
     localStorage.setItem("students", JSON.stringify(students));
 }
+
 function themSinhVien(){
 
     let maSV = document.getElementById("maSV").value;
