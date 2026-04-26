@@ -551,20 +551,19 @@ if (!diemTB) {
     return;
 }
 
-// chỉ được nhập số (cho phép số thập phân)
-if (!/^\d+(\.\d+)?$/.test(diemTB)) {
-    showAlert('Báo lỗi điểm nhập số', 'error');
+// cho phép số âm để test range
+if (!/^-?\d+(\.\d+)?$/.test(diemTB)) {
+    showAlert('Báo lỗi điểm chỉ được nhập số', 'error');
     return;
 }
 
-   // chuyển sang số để so sánh
 const diem = parseFloat(diemTB);
 
+// check khoảng
 if (diem < 0 || diem > 10) {
     showAlert('Báo lỗi điểm phải nằm trong khoảng 0 đến 10', 'error');
     return;
 }
-
             // Địa chỉ
 if (!diaChi) {
     showAlert('Báo lỗi địa chỉ không được để trống', 'error');
