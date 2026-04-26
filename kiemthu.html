@@ -500,7 +500,7 @@ if (!sdt) {
     showAlert('Báo lỗi SĐT phải đúng 10 chữ số', 'error');
     return;
 };
-}
+
 
       // Ngày sinh
 if (!ngaySinh) {
@@ -533,7 +533,7 @@ if (!cccd) {
     showAlert('Báo lỗi CCCD phải đúng 12 chữ số', 'error');
     return;
 }
-}
+
 
 
             // Giới tính
@@ -557,7 +557,7 @@ if (!/^\d+(\.\d+)?$/.test(diemTB)) {
     showAlert('Báo lỗi điểm nhập số', 'error');
     return;
 }
-}
+
    // chuyển sang số để so sánh
 const diem = parseFloat(diemTB);
 
@@ -565,7 +565,7 @@ if (diem < 0 || diem > 10) {
     showAlert('Báo lỗi điểm phải nằm trong khoảng 0 đến 10', 'error');
     return;
 }
-}
+
             // Địa chỉ
 if (!diaChi) {
     showAlert('Báo lỗi địa chỉ không được để trống', 'error');
