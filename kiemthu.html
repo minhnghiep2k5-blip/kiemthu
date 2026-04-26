@@ -378,9 +378,9 @@
         const studentTable = document.getElementById('studentTable');
         const alertDiv = document.getElementById('alert');
 
-     let students = JSON.parse(localStorage.getItem("students"));
+    let students = JSON.parse(localStorage.getItem("students"));
 
-if (!students) {
+if (!students || students.length === 0) {
     students = [
         {
             id: 1,
@@ -412,7 +412,6 @@ if (!students) {
 
     localStorage.setItem("students", JSON.stringify(students));
 }
-
 function themSinhVien(){
 
     let maSV = document.getElementById("maSV").value;
