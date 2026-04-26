@@ -295,7 +295,7 @@
                         </div>
                         <div class="form-group">
                             <label for="sdt">SĐT *</label>
-                            <input type="number" id="sdt" name="sdt" required placeholder="0123456789" min="0">
+                            <input type="text" id="sdt" placeholder="0123456789">
                         </div>
                     </div>
 
@@ -318,7 +318,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="cccd">Số CCCD *</label>
-                            <input type="number" id="cccd" name="cccd" required placeholder="Ví dụ: 123456789012" min="0">
+                           <input type="text" id="cccd" placeholder="123456789012">
                         </div>
                         <div class="form-group">
                             <label for="lop">Lớp *</label>
@@ -329,7 +329,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="diemTB">Điểm TB cả năm *</label>
-                            <input type="number" id="diemTB" name="diemTB" required min="0" max="10" step="0.1" placeholder="0.0 - 10.0">
+                           <input type="text" id="diemTB" placeholder="0 - 10">
                         </div>
                     </div>
 
@@ -378,7 +378,40 @@
         const studentTable = document.getElementById('studentTable');
         const alertDiv = document.getElementById('alert');
 
-      let students = JSON.parse(localStorage.getItem("students")) || [];
+     let students = JSON.parse(localStorage.getItem("students"));
+
+if (!students) {
+    students = [
+        {
+            id: 1,
+            maSV: "SV001",
+            tenSV: "Nguyen Van A",
+            email: "a@gmail.com",
+            sdt: "0123456789",
+            ngaySinh: "2003-01-01",
+            gioiTinh: "Nam",
+            cccd: "123456789012",
+            lop: "10A1",
+            diemTB: 8,
+            diaChi: "Hà Nội"
+        },
+        {
+            id: 2,
+            maSV: "SV002",
+            tenSV: "Tran Thi B",
+            email: "b@gmail.com",
+            sdt: "0987654321",
+            ngaySinh: "2003-02-02",
+            gioiTinh: "Nữ",
+            cccd: "987654321098",
+            lop: "10A2",
+            diemTB: 9,
+            diaChi: "Nam Định"
+        }
+    ];
+
+    localStorage.setItem("students", JSON.stringify(students));
+}
 
 function themSinhVien(){
 
@@ -441,7 +474,7 @@ if (!tenSV) {
             // Kiểm tra tên SV chỉ chứa chữ và khoảng trắng
             const tenSVRegex = /^[a-zA-ZÀ-ỿ\s]+$/;
             if (!tenSVRegex.test(tenSV)) {
-                showAlert('Lỗi: Tên sinh viên chỉ được phép chứa chữ cái (không được nhập số hoặc ký tự đặc biệt)', 'error');
+                showAlert('Báo lỗi tên sinh viên không hợp lệ', 'error');
                 return;
             }
             
@@ -452,7 +485,7 @@ if (!email) {
     return;
 }
             if (!email.includes('@') || email.endsWith('@')) {
-    showAlert("Báo lỗi nhập phần đứng sau '@'. 'd@' không hoàn chỉnh", 'error');
+    showAlert("Báo lỗi email sai định dạng", 'error');
     return;
 }
 // SĐT
@@ -460,9 +493,14 @@ if (!sdt) {
     showAlert('Báo lỗi số điện thoại không được để trống', 'error');
     return;
 }
-            if (!/^[0-9]{10}$/.test(sdt)) {
+            if (!/^\d+$/.test(sdt)) {
     showAlert('Báo lỗi sdt nhập số', 'error');
     return;
+}
+     if (!/^\d{10}$/.test(sdt)) {
+    showAlert('Báo lỗi SĐT phải đúng 10 chữ số', 'error');
+    return;
+};
 }
 
       // Ngày sinh
@@ -488,9 +526,14 @@ if (!cccd) {
     showAlert('Báo lỗi CCCD không được để trống', 'error');
     return;
 }
-            if (!/^[0-9]{12}$/.test(cccd)) {
+        if (!/^\d+$/.test(cccd)) {
     showAlert('Báo lỗi CCCD nhập số', 'error');
     return;
+}
+      if (!/^\d{12}$/.test(cccd)) {
+    showAlert('Báo lỗi CCCD phải đúng 12 chữ số', 'error');
+    return;
+}
 }
 
 
@@ -510,13 +553,19 @@ if (!diemTB) {
     return;
 }
 
-if (isNaN(diemTB)) {
+// chỉ được nhập số (cho phép số thập phân)
+if (!/^\d+(\.\d+)?$/.test(diemTB)) {
     showAlert('Báo lỗi điểm nhập số', 'error');
     return;
 }
-            if (diemTB < 0 || diemTB > 10) {
+}
+   // chuyển sang số để so sánh
+const diem = parseFloat(diemTB);
+
+if (diem < 0 || diem > 10) {
     showAlert('Báo lỗi điểm phải nằm trong khoảng 0 đến 10', 'error');
     return;
+}
 }
             // Địa chỉ
 if (!diaChi) {
